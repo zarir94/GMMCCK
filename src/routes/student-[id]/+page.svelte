@@ -10,11 +10,11 @@
 <svelte:head>
   <title>{s.name_english} - GMMCCK</title>
   <meta property="og:title" content="{s.name_english} - GMMCCK" />
-  <meta property="og:description" content="{s.name_english} is a child of {s.father_name_english} and {s.mother_name_english} who was born on {s.date_of_birth} reading now in group {s.group}" />
+  <meta property="og:description" content="{s.name_english} is a child of {s.father_name_english} and {s.mother_name_english} who was born on {s.date_of_birth} reading now in group {s.group.replaceAll('_', ' ')}" />
   <meta property="og:image" content="https:{CDN(s.photo || defaultImg)}" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="{s.name_english} - GMMCCK" />
-  <meta name="twitter:description" content="{s.name_english} is a child of {s.father_name_english} and {s.mother_name_english} who was born on {s.date_of_birth} reading now in group {s.group}" />
+  <meta name="twitter:description" content="{s.name_english} is a child of {s.father_name_english} and {s.mother_name_english} who was born on {s.date_of_birth} reading now in group {s.group.replaceAll('_', ' ')}" />
   <meta name="twitter:image" content="https:{CDN(s.photo || defaultImg)}" />
 </svelte:head>
 
@@ -238,7 +238,7 @@
       <div class="flex flex-col gap-0.5">
         <h2 class="card-title">HSC বিষয় নির্বাচন</h2>
         <h3 class="tracking-wide">HSC Subject Selection</h3>
-        <span class="badge badge-primary badge-xs capitalize">{s.group.replaceAll('_', '')}</span>
+        <span class="badge badge-primary badge-xs capitalize">{s.group.replaceAll('_', ' ')}</span>
       </div>
     </div>
     <div class="flex flex-col gap-5 items-center justify-center mt-2">
