@@ -11,11 +11,11 @@
   <title>{s.name_english} - GMMCCK</title>
   <meta property="og:title" content="{s.name_english} - GMMCCK" />
   <meta property="og:description" content="{s.name_english} is a child of {s.father_name_english} and {s.mother_name_english} who was born on {s.date_of_birth} reading now in group {s.group}" />
-  <meta property="og:image" content="{CDN(s.photo || defaultImg)}" />
+  <meta property="og:image" content="https:{CDN(s.photo || defaultImg)}" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="{s.name_english} - GMMCCK" />
   <meta name="twitter:description" content="{s.name_english} is a child of {s.father_name_english} and {s.mother_name_english} who was born on {s.date_of_birth} reading now in group {s.group}" />
-  <meta name="twitter:image" content="{CDN(s.photo || defaultImg)}" />
+  <meta name="twitter:image" content="https:{CDN(s.photo || defaultImg)}" />
 </svelte:head>
 
 <div class="w-full flex flex-col items-center justify-center gap-5 md:flex-row">
