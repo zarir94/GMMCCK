@@ -1,10 +1,18 @@
 <script lang="ts">
 	import { CDN, defaultImg, formatDate, getSubject, onImageMounted } from '$lib/func.js';
-	import { BookIcon, BookOpenTextIcon, GraduationCapIcon, HouseIcon, InfoIcon, MapIcon, MapPinIcon, PinIcon, SparkleIcon, StarIcon, UserIcon, UsersIcon } from 'lucide-svelte';
+	import { AwardIcon, BookIcon, BookOpenTextIcon, ExternalLinkIcon, GhostIcon, GraduationCapIcon, HouseIcon, InfoIcon, MapIcon, MapPinIcon, PinIcon, SparkleIcon, StarIcon, UserIcon, UsersIcon } from 'lucide-svelte';
 
   export let data;
 
   $: s = data.student;
+
+  function getGradeTheme(letter: string) {
+    if (letter.startsWith('A')) return 'bg-success/10 text-success border-success/20'; // A+, A, A-
+    if (letter === 'B' || letter === 'C') return 'bg-info/10 text-info border-info/20'; // B, C
+    if (letter === 'D') return 'bg-warning/10 text-warning border-warning/20'; // D
+    if (letter === 'F') return 'bg-error/10 text-error border-error/20'; // F
+    return 'bg-base-200 text-base-content border-base-300';
+  };
 </script>
 
 <svelte:head>
@@ -249,7 +257,7 @@
       <div class="flex flex-wrap items-center *:grow gap-5 w-full">
         {#each Object.keys(s).filter(k=>k.startsWith('hsc_compulsory_subjects')) as k}
           {@const v = s[k as keyof typeof s]}
-          {#if v}
+          {#if v && typeof v == 'string'}
             {@render subjectBox(getSubject(v) || 'Unknown', `Code: ${v.replaceAll('_', ', ')}`)}
           {/if}
         {/each}
@@ -261,7 +269,7 @@
       <div class="flex flex-wrap items-center *:grow gap-5 w-full">
         {#each Object.keys(s).filter(k=>k.startsWith('hsc_optional_subjects')) as k}
           {@const v = s[k as keyof typeof s]}
-          {#if v}
+          {#if v && typeof v == 'string'}
             {@render subjectBox(getSubject(v) || 'Unknown', `Code: ${v.replaceAll('_', ', ')}`)}
           {/if}
         {/each}
@@ -269,6 +277,63 @@
     </div>
   </div>
 </div>
+
+{#if s.half_yearly_result}
+{@const r = s.half_yearly_result}
+<div class="card bg-base-200 border border-base-300 shadow-md mt-5" id="hyr">
+  <div class="card-body">
+    <div class="flex items-center justify-start gap-3">
+      <div class="p-2 bg-linear-to-bl from-teal-700 to-blue-700 rounded-md text-white/90"><AwardIcon/></div>
+      <div class="flex flex-col gap-0.5">
+        <h2 class="card-title">অর্ধ-বার্ষিক পরীক্ষার ফলাফল</h2>
+        <h3 class="tracking-wide">Half-Yearly Exam Result</h3>
+        <span class="badge {Number(r.gpa) ? 'badge-info' : 'badge-warning'} badge-xs capitalize">{Number(r.gpa) ? `GPA ${r.gpa}` : r.gpa}</span>
+      </div>
+    </div>
+    <div class="flex flex-col gap-5 mt-2">
+      {#each r.results as d}
+        <li class="group flex items-center justify-between py-3 px-4 bg-base-100 rounded-xl border border-slate-500/20 hover:border-primary/40 hover:bg-primary/5 transition-colors duration-300">
+          <div class="flex items-center gap-3">
+            <div class="avatar placeholder hidden sm:flex">
+              <div class="bg-base-200 text-base-content/50 rounded-lg size-12 flex items-center justify-center font-bold text-base group-hover:bg-primary/10 group-hover:text-primary transition-colors duration-300">
+                {d.subject.substring(0, 2).toUpperCase()}
+              </div>
+            </div>
+            <div>
+              <h4 class="font-bold text-lg text-base-content">{d.subject}</h4>
+              <div class="sm:hidden text-sm font-bold opacity-60 mt-1">GP: {Number(d.grade) ? Number(d.grade).toFixed(2) : d.grade}</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-6">
+            <div class="text-right hidden sm:block">
+              <div class="text-xs uppercase tracking-wider opacity-50 font-semibold mb-1">Grade Point</div>
+              <div class="font-mono font-bold text-lg text-base-content/90">{Number(d.grade) ? Number(d.grade).toFixed(2) : d.grade}</div>
+            </div>
+            <div class="size-12 shrink-0 rounded-xl border flex items-center justify-center text-2xl font-black shadow-sm {getGradeTheme(d.letter)}">
+              {#if d.letter == 'Absent'}
+                <GhostIcon class="size-7"/>
+              {:else}
+                {d.letter}
+              {/if}
+            </div>
+          </div>
+        </li>
+      {/each}
+      <div class="flex justify-center">
+        <form action="https://www.mmcitycollege.edu.bd/index.php/academic-info/class-eleven-results" method="post" target="_blank" enctype="multipart/form-data">
+          <input type="hidden" name="jform[exam_name]" value="HSC Half Yearly 2026">
+          <input type="hidden" name="jform[session]" value="2025-2026">
+          <input type="hidden" name="jform[roll]" value="{s.roll}">
+          <input type="hidden" name="task" value="academyaid.showResult">
+          <button type="submit" class="btn btn-info btn-soft">View Original <ExternalLinkIcon class="size-4 -mt-1"/></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{/if}
+
+
 
 <style lang="postcss">
   @reference 'tailwindcss';

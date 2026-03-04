@@ -67,6 +67,14 @@ export interface StudentInfo {
 	hsc_optional_subjects_business_studies_3: string | null;
 	hsc_optional_subjects_business_studies_4: string | null;
 	photo: string | null;
+	half_yearly_result: null | undefined | {
+		gpa: string;
+		results: {
+			subject: string;
+			letter: string;
+			grade: string | number;
+		}[];
+	};
 }
 
 let parsedData: StudentInfo[] = data.sort((a, b) => {

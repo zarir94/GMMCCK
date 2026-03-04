@@ -1,7 +1,7 @@
 <script lang="ts">
   import og_image from "$lib/assets/og_image.jpg";
   import bg_image from "$lib/assets/bg_image.jpg";
-	import { ArrowBigRightIcon, CalendarIcon, SearchIcon, TagIcon } from "lucide-svelte";
+	import { ArrowBigRightIcon, BookOpenIcon, BriefcaseBusinessIcon, CalendarIcon, FlaskConicalIcon, SearchIcon, TagIcon, UsersIcon } from "lucide-svelte";
 	import { CDN, defaultImg, formatDate, onImageMounted } from "$lib/func.js";
   export let data;
 </script>
@@ -40,6 +40,117 @@
 </div>
 
 <div class="mt-5 flex flex-col justify-center items-center">
+  <h2 class="text-2xl md:text-3xl font-bold relative mb-4">
+    Half Yearly Overview
+  </h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 w-full mb-8">
+    {#each [
+      {
+        icon: UsersIcon,
+        name: "Overall Results",
+        total: data.totalStudent,
+        genres: {
+          Passed: data.passedStudent,
+          Failed: data.failedStudent,
+          Absent: data.totalStudent - data.passedStudent - data.failedStudent,
+          'GPA 1': data.gpa1Student,
+          'GPA 2': data.gpa2Student,
+          'GPA 3': data.gpa3Student,
+          'GPA 4': data.gpa4Student,
+          'GPA 5': data.gpa5Student,
+        },
+      },
+      {
+        icon: FlaskConicalIcon,
+        name: "Science",
+        total: data.totalScienceStudent,
+        genres: {
+          Passed: data.passedScienceStudent,
+          Failed: data.failedScienceStudent,
+          Absent: data.totalScienceStudent - data.passedScienceStudent - data.failedScienceStudent,
+          'GPA 1': data.gpa1ScienceStudent,
+          'GPA 2': data.gpa2ScienceStudent,
+          'GPA 3': data.gpa3ScienceStudent,
+          'GPA 4': data.gpa4ScienceStudent,
+          'GPA 5': data.gpa5ScienceStudent,
+        },
+      },
+      {
+        icon: BookOpenIcon,
+        name: "Humanities",
+        total: data.totalHumanitiesStudent,
+        genres: {
+          Passed: data.passedHumanitiesStudent,
+          Failed: data.failedHumanitiesStudent,
+          Absent: data.totalHumanitiesStudent - data.passedHumanitiesStudent - data.failedHumanitiesStudent,
+          'GPA 1': data.gpa1HumanitiesStudent,
+          'GPA 2': data.gpa2HumanitiesStudent,
+          'GPA 3': data.gpa3HumanitiesStudent,
+          'GPA 4': data.gpa4HumanitiesStudent,
+          'GPA 5': data.gpa5HumanitiesStudent,
+        },
+      },
+      {
+        icon: BriefcaseBusinessIcon,
+        name: "Business Studies",
+        total: data.totalBusinessStudent,
+        genres: {
+          Passed: data.passedBusinessStudent,
+          Failed: data.failedBusinessStudent,
+          Absent: data.totalBusinessStudent - data.passedBusinessStudent - data.failedBusinessStudent,
+          'GPA 1': data.gpa1BusinessStudent,
+          'GPA 2': data.gpa2BusinessStudent,
+          'GPA 3': data.gpa3BusinessStudent,
+          'GPA 4': data.gpa4BusinessStudent,
+          'GPA 5': data.gpa5BusinessStudent,
+        },
+      }
+    ] as d}
+      {@const iconClass = d.name == 'Overall Results' ? 'bg-primary/10 text-primary' :
+                          d.name == 'Science' ? 'bg-secondary/10 text-secondary' :
+                          d.name == 'Humanities' ? 'bg-accent/10 text-accent' :
+                          d.name == 'Business Studies' ? 'bg-info/10 text-info' : 'bg-warning/10 text-warning'}
+      <div class="card bg-base-200 rounded-xl shadow-lg border border-base-300 hover:-translate-y-1 transition duration-300 hover:bg-primary/5 hover:border-primary/10">
+        <div class="card-body p-6">
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <h2 class="card-title text-lg font-semibold text-base-content/80">{d.name}</h2>
+            </div>
+            <!-- Icon -->
+            <div class="{iconClass} p-3 rounded-xl">
+              <svelte:component this={d.icon}/>
+            </div>
+          </div>
+          
+          <div class="mb-6">
+            <div class="text-4xl font-bold text-base-content">{d.total}</div>
+            <div class="text-xs text-base-content/50 font-medium uppercase tracking-wider mt-1">Total Candidates</div>
+          </div>
+
+          <div class="space-y-4">
+            {#each Object.entries(d.genres) as [k, v]}
+              {@const perc = v / d.total * 100}
+              {@const colorClass =  k == 'Passed' ? 'text-success' :
+                                                k == 'Failed' ? 'text-error' :
+                                                k == 'Absent' ? 'text-accent' :
+                                                k == 'GPA 1' ? 'text-rose-400' :
+                                                k == 'GPA 2' ? 'text-warning' :
+                                                k == 'GPA 3' ? 'text-info' :
+                                                k == 'GPA 4' ? 'text-emerald-400':
+                                                k == 'GPA 5' ? 'text-amber-400' : ''}
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span class="{colorClass} font-semibold">{k}</span>
+                  <span class="font-bold">{v} <span class="text-xs font-normal opacity-60 ml-1">({Math.round(perc * 10) / 10}%)</span></span>
+                </div>
+                <progress class="progress {colorClass} w-full bg-slate-500/30" value="{perc}" max="100"></progress>
+              </div>
+            {/each}
+          </div>
+        </div>
+      </div>
+    {/each}
+  </div>
   <h2 class="text-2xl md:text-3xl font-bold relative">
     Recent Folks
     <a href="/search" class="btn btn-primary btn-xs btn-soft absolute right-0 bottom-1/2 translate-x-full translate-y-1/2 scale-75">View All</a>
