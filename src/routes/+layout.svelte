@@ -4,8 +4,8 @@
 	import logo from "$lib/assets/logo.png";
 	import { ProgressBar } from "@prgm/sveltekit-progress-bar";
 
-	let { children } = $props();
-	let isRestricted = $page.url.pathname == '/sorry';
+	export let children;
+	$: isRestricted = $page.url.pathname == '/sorry';
 </script>
 
 <svelte:head>
