@@ -7,6 +7,7 @@
   $: s = data.student;
 
   function getGradeTheme(letter: string) {
+    if (letter === 'Absent') return 'bg-accent/10 text-accent border-accent/20';
     if (letter.startsWith('A')) return 'bg-success/10 text-success border-success/20'; // A+, A, A-
     if (letter === 'B' || letter === 'C') return 'bg-info/10 text-info border-info/20'; // B, C
     if (letter === 'D') return 'bg-warning/10 text-warning border-warning/20'; // D
