@@ -5,6 +5,7 @@
 	import { ProgressBar } from "@prgm/sveltekit-progress-bar";
 
 	let { children } = $props();
+	let isRestricted = $page.url.pathname == '/sorry';
 </script>
 
 <svelte:head>
@@ -27,7 +28,7 @@
 <ProgressBar class="text-primary" />
 
 <div class="w-full">
-	<nav class="navbar bg-base-100 border-b border-gray-800 shadow-sm">
+	<nav class="navbar bg-base-100 border-b border-gray-800 shadow-sm" class:hidden={isRestricted}>
 		<div class="w-full max-w-7xl flex items-center mx-auto">
 			<div class="flex-1">
 				<a class="btn btn-ghost px-1 active:scale-75 ease-out duration-300 transition" href="/">
@@ -44,7 +45,7 @@
 	<main class="container max-w-7xl mx-auto p-3 md:p-4 lg:p-5" style="min-height: calc(100vh - 120px);">
 		{@render children()}
 	</main>
-	<footer class="footer sm:footer-horizontal footer-center bg-base-200 text-base-content p-4">
+	<footer class="footer sm:footer-horizontal footer-center bg-base-200 text-base-content p-4" class:hidden={isRestricted}>
 		<aside>
 			<p>&copy; Copyright GMMCCK {new Date().getFullYear()} - All right reserved</p>
 		</aside>
