@@ -19,6 +19,9 @@ function generatePagination(totalPages: number, currentPage: number) {
 
 export const load: PageServerLoad = async ({ url }) => {
     let q = url.searchParams.get('q')?.trim() || '';
+    if (q.startsWith('+880') && 14 <= q.length && q.length <= 16) {
+        q = q.replaceAll('+88', '').replaceAll('-', '').replaceAll(' ', '');
+    }
     let page = parseInt(url.searchParams.get('page') || '') || 1;
     if (page < 1) page = 1;
     let fzSearch = fuzzysort.go(q, parsedData, { keys: INFO_KEYs, all: true });

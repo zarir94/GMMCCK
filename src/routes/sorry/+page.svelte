@@ -6,7 +6,7 @@
   let count = 0;
   let showContinue = false;
   let timeout: NodeJS.Timeout | undefined = undefined;
-  $: if (count >= 20) { showContinue = true }
+  $: if (count >= 10) { showContinue = true }
 </script>
 
 <svelte:head>
@@ -18,7 +18,7 @@
   clearTimeout(timeout);
   timeout = setTimeout(() => {
     count = 0;
-  }, 350);
+  }, 500);
 }}/>
 
 <div class="card mx-auto w-full max-w-3xl border border-base-content/10 bg-base-200 shadow-2xl select-none">

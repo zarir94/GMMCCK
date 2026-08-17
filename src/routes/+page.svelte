@@ -3,7 +3,10 @@
   import bg_image from "$lib/assets/bg_image.jpg";
 	import { ArrowBigRightIcon, BookOpenIcon, BriefcaseBusinessIcon, CalendarIcon, FlaskConicalIcon, SearchIcon, TagIcon, UsersIcon } from "lucide-svelte";
 	import { CDN, defaultImg, formatDate, onImageMounted } from "$lib/func.js";
+
   export let data;
+  $: hyr = data.hyr;
+  $: yfr = data.yfr;
 </script>
 
 <svelte:head>
@@ -39,70 +42,67 @@
   </div>
 </div>
 
-<div class="mt-5 flex flex-col justify-center items-center">
-  <h2 class="text-2xl md:text-3xl font-bold relative mb-4">
-    Half Yearly Overview
-  </h2>
+{#snippet ResultOverview(result: typeof hyr | typeof yfr)}
   <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 w-full mb-8">
     {#each [
       {
         icon: UsersIcon,
         name: "Overall Results",
-        total: data.totalStudent,
+        total: result.totalStudent,
         genres: {
-          Passed: data.passedStudent,
-          Failed: data.failedStudent,
-          Absent: data.totalStudent - data.passedStudent - data.failedStudent,
-          'GPA 1': data.gpa1Student,
-          'GPA 2': data.gpa2Student,
-          'GPA 3': data.gpa3Student,
-          'GPA 4': data.gpa4Student,
-          'GPA 5': data.gpa5Student,
+          Passed: result.passedStudent,
+          Failed: result.failedStudent,
+          Absent: result.totalStudent - result.passedStudent - result.failedStudent,
+          'GPA 1': result.gpa1Student,
+          'GPA 2': result.gpa2Student,
+          'GPA 3': result.gpa3Student,
+          'GPA 4': result.gpa4Student,
+          'GPA 5': result.gpa5Student,
         },
       },
       {
         icon: FlaskConicalIcon,
         name: "Science",
-        total: data.totalScienceStudent,
+        total: result.totalScienceStudent,
         genres: {
-          Passed: data.passedScienceStudent,
-          Failed: data.failedScienceStudent,
-          Absent: data.totalScienceStudent - data.passedScienceStudent - data.failedScienceStudent,
-          'GPA 1': data.gpa1ScienceStudent,
-          'GPA 2': data.gpa2ScienceStudent,
-          'GPA 3': data.gpa3ScienceStudent,
-          'GPA 4': data.gpa4ScienceStudent,
-          'GPA 5': data.gpa5ScienceStudent,
+          Passed: result.passedScienceStudent,
+          Failed: result.failedScienceStudent,
+          Absent: result.totalScienceStudent - result.passedScienceStudent - result.failedScienceStudent,
+          'GPA 1': result.gpa1ScienceStudent,
+          'GPA 2': result.gpa2ScienceStudent,
+          'GPA 3': result.gpa3ScienceStudent,
+          'GPA 4': result.gpa4ScienceStudent,
+          'GPA 5': result.gpa5ScienceStudent,
         },
       },
       {
         icon: BookOpenIcon,
         name: "Humanities",
-        total: data.totalHumanitiesStudent,
+        total: result.totalHumanitiesStudent,
         genres: {
-          Passed: data.passedHumanitiesStudent,
-          Failed: data.failedHumanitiesStudent,
-          Absent: data.totalHumanitiesStudent - data.passedHumanitiesStudent - data.failedHumanitiesStudent,
-          'GPA 1': data.gpa1HumanitiesStudent,
-          'GPA 2': data.gpa2HumanitiesStudent,
-          'GPA 3': data.gpa3HumanitiesStudent,
-          'GPA 4': data.gpa4HumanitiesStudent,
-          'GPA 5': data.gpa5HumanitiesStudent,
+          Passed: result.passedHumanitiesStudent,
+          Failed: result.failedHumanitiesStudent,
+          Absent: result.totalHumanitiesStudent - result.passedHumanitiesStudent - result.failedHumanitiesStudent,
+          'GPA 1': result.gpa1HumanitiesStudent,
+          'GPA 2': result.gpa2HumanitiesStudent,
+          'GPA 3': result.gpa3HumanitiesStudent,
+          'GPA 4': result.gpa4HumanitiesStudent,
+          'GPA 5': result.gpa5HumanitiesStudent,
         },
       },
       {
         icon: BriefcaseBusinessIcon,
         name: "Business Studies",
-        total: data.totalBusinessStudent,
+        total: result.totalBusinessStudent,
         genres: {
-          Passed: data.passedBusinessStudent,
-          Failed: data.failedBusinessStudent,
-          Absent: data.totalBusinessStudent - data.passedBusinessStudent - data.failedBusinessStudent,
-          'GPA 1': data.gpa1BusinessStudent,
-          'GPA 2': data.gpa2BusinessStudent,
-          'GPA 3': data.gpa3BusinessStudent,
-          'GPA 4': data.gpa4BusinessStudent,
-          'GPA 5': data.gpa5BusinessStudent,
+          Passed: result.passedBusinessStudent,
+          Failed: result.failedBusinessStudent,
+          Absent: result.totalBusinessStudent - result.passedBusinessStudent - result.failedBusinessStudent,
+          'GPA 1': result.gpa1BusinessStudent,
+          'GPA 2': result.gpa2BusinessStudent,
+          'GPA 3': result.gpa3BusinessStudent,
+          'GPA 4': result.gpa4BusinessStudent,
+          'GPA 5': result.gpa5BusinessStudent,
         },
       }
     ] as d}
@@ -151,6 +151,17 @@
       </div>
     {/each}
   </div>
+{/snippet}
+
+<div class="mt-5 flex flex-col justify-center items-center">
+  <h2 class="text-2xl md:text-3xl font-bold relative mb-4">
+    Half Yearly Overview
+  </h2>
+  {@render ResultOverview(hyr)}
+  <h2 class="text-2xl md:text-3xl font-bold relative mb-4">
+    Year Final Overview
+  </h2>
+  {@render ResultOverview(yfr)}
   <h2 class="text-2xl md:text-3xl font-bold relative">
     Recent Folks
     <a href="/search" class="btn btn-primary btn-xs btn-soft absolute right-0 bottom-1/2 translate-x-full translate-y-1/2 scale-75">View All</a>

@@ -1,4 +1,4 @@
-import data from "./data";
+import data from "./data.json";
 
 export interface StudentInfo {
 	id: string;
@@ -73,11 +73,21 @@ export interface StudentInfo {
 			subject: string;
 			letter: string;
 			grade: string | number;
+			marks: string;
+		}[];
+	};
+	year_final_result: null | undefined | {
+		gpa: string;
+		results: {
+			subject: string;
+			letter: string;
+			grade: string | number;
+			marks: string;
 		}[];
 	};
 }
 
-let parsedData: StudentInfo[] = data.sort((a, b) => {
+let parsedData: StudentInfo[] = (data as StudentInfo[]).sort((a, b) => {
 	let dateA = +new Date(a.date);
 	let dateB = +new Date(b.date);
 	return dateB - dateA;
