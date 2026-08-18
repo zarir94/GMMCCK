@@ -155,13 +155,13 @@
 
 <div class="mt-5 flex flex-col justify-center items-center">
   <h2 class="text-2xl md:text-3xl font-bold relative mb-4">
-    Half Yearly Overview
-  </h2>
-  {@render ResultOverview(hyr)}
-  <h2 class="text-2xl md:text-3xl font-bold relative mb-4">
     Year Final Overview
   </h2>
   {@render ResultOverview(yfr)}
+  <h2 class="text-2xl md:text-3xl font-bold relative mb-4">
+    Half Yearly Overview
+  </h2>
+  {@render ResultOverview(hyr)}
   <h2 class="text-2xl md:text-3xl font-bold relative">
     Recent Folks
     <a href="/search" class="btn btn-primary btn-xs btn-soft absolute right-0 bottom-1/2 translate-x-full translate-y-1/2 scale-75">View All</a>
