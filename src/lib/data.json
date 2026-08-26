@@ -76580,7 +76580,7 @@
         "hsc_optional_subjects_business_studies_4": null,
         "photo": "https://res.cloudinary.com/dnxewrvps/image/upload/v1772607378/yryk8ptswav1khx4vdnj.png",
         "half_yearly_result": {
-            "gpa": "Failed",
+            "gpa": "3.00",
             "results": [
                 {
                     "subject": "Bangla",
@@ -76602,9 +76602,9 @@
                 },
                 {
                     "subject": "Physics",
-                    "letter": "F",
-                    "grade": 0,
-                    "marks": "subj:11,obj:10,ct:0,total:21"
+                    "letter": "D",
+                    "grade": 1,
+                    "marks": "subj:12,obj:10,ct:0,total:22"
                 },
                 {
                     "subject": "Chemistry",
@@ -76627,7 +76627,7 @@
             ]
         },
         "year_final_result": {
-            "gpa": "F(1)",
+            "gpa": "4.25",
             "results": [
                 {
                     "subject": "Bangla",
@@ -76655,9 +76655,9 @@
                 },
                 {
                     "subject": "Chemistry",
-                    "letter": "F",
-                    "grade": 0,
-                    "marks": "subj:32,obj:15,prac:20,ct:4,total:71"
+                    "letter": "A-",
+                    "grade": 3.5,
+                    "marks": "subj:32,obj:15,prac:20,ct:7,total:74"
                 },
                 {
                     "subject": "Mathematics",

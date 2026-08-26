@@ -325,7 +325,7 @@
           </li>
         {/each}
         <div class="flex justify-center">
-          <form action="https://www.mmcitycollege.edu.bd/index.php/academic-info/class-eleven-results" method="post" target="_blank" enctype="multipart/form-data">
+          <form action="https://www.mmcitycollege.edu.bd/index.php/academic-info/class-eleven-results-2" method="post" target="_blank" enctype="multipart/form-data">
             <input type="hidden" name="jform[exam_name]" value={type == 'hyr' ? 'HSC Half Yearly 2026': 'HSC Year Final 2026'}>
             <input type="hidden" name="jform[session]" value="2025-2026">
             <input type="hidden" name="jform[roll]" value="{s.roll}">
