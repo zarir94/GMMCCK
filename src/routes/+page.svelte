@@ -154,13 +154,17 @@
 {/snippet}
 
 <div class="mt-5 flex flex-col justify-center items-center">
-  <h2 class="text-2xl md:text-3xl font-bold relative mb-4">
+  <h2 class="text-2xl md:text-3xl font-bold">
     Year Final Overview
   </h2>
+  <p class="-mt-1 text-info/50 font-mono text-xs">Class 11 - HSC 27</p>
+  <div class="mb-4"></div>
   {@render ResultOverview(yfr)}
-  <h2 class="text-2xl md:text-3xl font-bold relative mb-4">
+  <h2 class="text-2xl md:text-3xl font-bold">
     Half Yearly Overview
   </h2>
+  <p class="-mt-1 text-info/50 font-mono text-xs">Class 11 - HSC 27</p>
+  <div class="mb-4"></div>
   {@render ResultOverview(hyr)}
   <h2 class="text-2xl md:text-3xl font-bold relative">
     Recent Folks

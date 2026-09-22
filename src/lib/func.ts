@@ -63,8 +63,12 @@ export function CDN(url?: string, w?: number | string, q?: number | string, fall
 	return cdn;
 }
 
-export function formatDate(dateString: string, m: 'short' | 'long' = 'short') {
-	let date = new Date(dateString);
+/**
+ * 
+ * @param dateString if not given, default '1970-01-01' is taken.
+ */
+export function formatDate(dateString: string | null | undefined, m: 'short' | 'long' = 'short') {
+	let date = new Date(dateString || '1970-01-01');
 	let day = date.getDate();
 	let month = date.toLocaleString('default', { month: m });
 	let year = date.getFullYear();
