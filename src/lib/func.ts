@@ -1,5 +1,5 @@
 
-export let defaultImg = 'https://iili.io/q93X73X.png';
+export let defaultImg = 'https://res.cloudinary.com/dnxewrvps/image/upload/v1790147032/placeholder_unknown.webp';
 
 let subject_code = {
 	"বাংলা": [101, 102],

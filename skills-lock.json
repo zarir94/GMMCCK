@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "daisyui": {
+      "source": "saadeghi/daisyui",
+      "sourceType": "github",
+      "skillPath": "skills/daisyui/SKILL.md",
+      "computedHash": "f70b06883160802b5b04db0504647cc140bd38cf7eb941183a38f44a179b27ca"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "computedHash": "89496d5dd00f4810205f351759594fc2742bf8eea85a2f2b2d1de59f4bd91576"
+    },
+    "sveltekit-svelte5-tailwind-skill": {
+      "source": "claude-skills/sveltekit-svelte5-tailwind-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "bb72a52a2c415aa8743bf3146dd615f9084e17a8a05e2198f8c3ba23a8053b8b"
+    }
+  }
+}

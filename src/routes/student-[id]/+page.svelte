@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { CDN, defaultImg, formatDate, getSubject, onImageMounted } from '$lib/func.js';
-	import { AwardIcon, BookIcon, BookOpenTextIcon, ExternalLinkIcon, GemIcon, GhostIcon, GraduationCapIcon, HouseIcon, InfoIcon, MapIcon, MapPinIcon, PinIcon, SparkleIcon, StarIcon, UserIcon, UsersIcon } from 'lucide-svelte';
+	import { AwardIcon, BookIcon, BookOpenTextIcon, ExternalLinkIcon, GemIcon, GhostIcon, GraduationCapIcon, HouseIcon, InfoIcon, MapIcon, MapPinIcon, PinIcon, ScrollTextIcon, SparkleIcon, StarIcon, UserIcon, UsersIcon } from 'lucide-svelte';
 
   export let data;
 
@@ -14,6 +14,33 @@
     if (letter === 'F') return 'bg-error/10 text-error border-error/20'; // F
     return 'bg-base-200 text-base-content border-base-300';
   };
+
+  function getGradeBadge(letter: string) {
+    if (letter.startsWith('A')) return 'badge-success'; // A+, A, A-
+    if (letter === 'B' || letter === 'C') return 'badge-info'; // B, C
+    if (letter === 'D') return 'badge-warning'; // D
+    if (letter === 'F') return 'badge-error'; // F
+    return 'badge-accent';
+  };
+
+  // Bangla / English combine two papers (out of 200), ICT is out of 50, the rest out of 100.
+  function getSscMax(subject: string, marks: number) {
+    if (marks > 100) return 200;
+    if (/ict|information|communication|technology/i.test(subject)) return 50;
+    return 100;
+  };
+
+  $: sscResult = s.ssc_result ?? [];
+  $: sscTotal = sscResult.reduce((a, r) => a + r.marks, 0);
+  $: sscFull = sscResult.reduce((a, r) => a + getSscMax(r.subject, r.marks), 0);
+  $: sscPct = sscFull ? Math.round((sscTotal / sscFull) * 1000) / 10 : 0;
+
+  $: electiveKeys = Object.keys(s).filter(
+    (k) =>
+      k.startsWith('hsc_optional_subjects') &&
+      !!s[k as keyof typeof s] &&
+      typeof s[k as keyof typeof s] == 'string'
+  );
 </script>
 
 <svelte:head>
@@ -233,6 +260,48 @@
   </div>
 </div>
 
+{#if sscResult.length}
+  <div class="card bg-base-200 border border-base-300 shadow-md mt-5">
+    <div class="card-body">
+      <div class="flex items-center justify-start gap-3">
+        <div class="p-2 bg-linear-to-bl from-amber-700 to-emerald-700 rounded-md text-white/90"><ScrollTextIcon/></div>
+        <div class="flex flex-col gap-0.5">
+          <h2 class="card-title">এসএসসি বিষয়ভিত্তিক ফলাফল</h2>
+          <h3 class="tracking-wide">SSC Subject-wise Result</h3>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 responsive-border rounded-xl mt-2 border-white/10 overflow-hidden">
+        {#each sscResult as r}
+          {@const max = getSscMax(r.subject, r.marks)}
+          <div class="py-3 px-5 flex items-center justify-between gap-3 hover:bg-primary/5 transition-colors duration-300">
+            <span class="font-semibold">{r.subject}</span>
+            <span class="flex items-center gap-2.5 shrink-0">
+              <span class="font-mono font-bold">{r.marks}<span class="text-sm font-normal opacity-50">/{max}</span></span>
+              <span class="badge badge-soft font-bold {getGradeBadge(r.grade)}">{r.grade}</span>
+            </span>
+          </div>
+        {/each}
+      </div>
+      <div class="mt-2 flex flex-col items-center gap-4 rounded-xl border border-primary/30 bg-primary/10 px-5 py-4 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+        <div>
+          <div class="text-xs font-semibold uppercase tracking-wider opacity-60">মোট নম্বর (Total)</div>
+          <div class="font-mono text-2xl font-black sm:text-3xl">{sscTotal}<span class="text-base font-bold opacity-50">/{sscFull}</span></div>
+        </div>
+        <div class="flex items-center justify-center gap-8">
+          <div class="sm:text-right">
+            <div class="text-xs font-semibold uppercase tracking-wider opacity-60">Overall</div>
+            <div class="font-mono text-xl font-bold">{sscPct}%</div>
+          </div>
+          <div class="sm:text-right">
+            <div class="text-xs font-semibold uppercase tracking-wider opacity-60">Board GPA</div>
+            <div class="font-mono text-xl font-bold">{s.ssc_gpa ?? 'N/A'}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{/if}
+
 {#snippet subjectBox(title: string, desc: string)}
   <div class="bg-white/5 border border-white/10 shadow rounded-lg py-3 px-5 flex flex-col gap-1 hover:bg-primary/10 hover:border-primary/30 hover:-translate-y-1 transition ease-out duration-300">
     <span class="font-semibold text-base">{title}</span>
@@ -263,18 +332,20 @@
           {/if}
         {/each}
       </div>
-      <div class="flex items-center gap-3 w-full">
-        <span class="flex gap-2 shrink-0 badge badge-success badge-soft"><StarIcon class="size-4"/> ঐচ্ছিক বিষয়সমূহ (Elective)</span>
-        <span class="w-full h-px rounded bg-success/50"></span>
-      </div>
-      <div class="flex flex-wrap items-center *:grow gap-5 w-full">
-        {#each Object.keys(s).filter(k=>k.startsWith('hsc_optional_subjects')) as k}
-          {@const v = s[k as keyof typeof s]}
-          {#if v && typeof v == 'string'}
-            {@render subjectBox(getSubject(v) || 'Unknown', `Code: ${v.replaceAll('_', ', ')}`)}
-          {/if}
-        {/each}
-      </div>
+      {#if electiveKeys.length}
+        <div class="flex items-center gap-3 w-full">
+          <span class="flex gap-2 shrink-0 badge badge-success badge-soft"><StarIcon class="size-4"/> ঐচ্ছিক বিষয়সমূহ (Elective)</span>
+          <span class="w-full h-px rounded bg-success/50"></span>
+        </div>
+        <div class="flex flex-wrap items-center *:grow gap-5 w-full">
+          {#each electiveKeys as k}
+            {@const v = s[k as keyof typeof s]}
+            {#if v && typeof v == 'string'}
+              {@render subjectBox(getSubject(v) || 'Unknown', `Code: ${v.replaceAll('_', ', ')}`)}
+            {/if}
+          {/each}
+        </div>
+      {/if}
     </div>
   </div>
 </div>
